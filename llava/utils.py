@@ -69,13 +69,41 @@ def process_video_with_pyav(video_file, data_args):
     frames = [video_frames[i] for i in frame_idx]
     return np.stack([x.to_ndarray(format="rgb24") for x in frames])
 
+import logging
+
+
+def setup_logging(log_file, level, include_host=False):
+    if include_host:
+        import socket
+        hostname = socket.gethostname()
+        formatter = logging.Formatter(
+            f'%(asctime)s |  {hostname} | %(levelname)s | %(message)s', datefmt='%Y-%m-%d,%H:%M:%S')
+    else:
+        formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s', datefmt='%Y-%m-%d,%H:%M:%S')
+
+    logging.root.setLevel(level)
+    loggers = [logging.getLogger(name) for name in logging.root.manager.loggerDict]
+    for logger in loggers:
+        logger.setLevel(level)
+
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(formatter)
+    logging.root.addHandler(stream_handler)
+
+    if log_file:
+        file_handler = logging.FileHandler(filename=log_file)
+        file_handler.setFormatter(formatter)
+        logging.root.addHandler(file_handler)
+
 
 def rank0_print(*args):
     if dist.is_initialized():
         if dist.get_rank() == 0:
-            print(f"Rank {dist.get_rank()}: ", *args)
+            # print(f"Rank {dist.get_rank()}: ", *args)
+            logging.info(" ".join(map(str, args)))
     else:
-        print(*args)
+        logging.info(" ".join(map(str, args)))
+        # print(*args)
 
 
 def rank_print(*args):

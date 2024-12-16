@@ -45,7 +45,7 @@ from llava.train.llava_trainer import LLaVATrainer
 from llava import conversation as conversation_lib
 from llava.model import *
 from llava.mm_utils import process_highres_image, process_anyres_image, process_highres_image_crop_split, tokenizer_image_token
-from llava.utils import rank0_print, process_video_with_pyav, process_video_with_decord
+from llava.utils import rank0_print, process_video_with_pyav, process_video_with_decord,setup_logging
 
 torch.multiprocessing.set_sharing_strategy("file_system")
 
@@ -1451,6 +1451,10 @@ def train(attn_implementation=None):
 
     parser = transformers.HfArgumentParser((ModelArguments, DataArguments, TrainingArguments))
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
+    if training_args.output_dir is not None:
+        os.makedirs(training_args.output_dir, exist_ok=True)
+        setup_logging(training_args.output_dir+"/train.log",level=logging.INFO)
+
 
     if training_args.verbose_logging:
         rank0_print(f"Inspecting experiment hyperparameters:\n")
