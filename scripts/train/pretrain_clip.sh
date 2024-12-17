@@ -13,8 +13,11 @@ VISION_MODEL_VERSION_CLEAN="${VISION_MODEL_VERSION//\//_}"
 
 PROMPT_VERSION=plain
 
-BASE_RUN_NAME="llavanext-${VISION_MODEL_VERSION_CLEAN}-${LLM_VERSION_CLEAN}-mlp2x_gelu-pretrain_blip558k_plain"
+# BASE_RUN_NAME="llavanext-${VISION_MODEL_VERSION_CLEAN}-${LLM_VERSION_CLEAN}-mlp2x_gelu-pretrain_blip558k_plain"
 echo "BASE_RUN_NAME: ${BASE_RUN_NAME}"
+TOTAL_BATCH_SIZE=256
+# total / world size/ Node count
+BATCH_SIZE=$((($TOTAL_BATCH_SIZE / $NODE_COUNT)/ $GPU_PER_NODE_COUNT))
 
 ACCELERATE_CPU_AFFINITY=1 torchrun --nproc_per_node="${GPU_PER_NODE_COUNT}" --nnodes="${NODE_COUNT}" --node_rank="${RANK}" --master_addr="${MASTER_ADDR}" --master_port="${MASTER_PORT}" \
     llava/train/train_mem.py \
@@ -32,7 +35,7 @@ ACCELERATE_CPU_AFFINITY=1 torchrun --nproc_per_node="${GPU_PER_NODE_COUNT}" --nn
     --bf16 True \
     --output_dir ./checkpoints/${BASE_RUN_NAME}/projectors \
     --num_train_epochs 1 \
-    --per_device_train_batch_size 32 \
+    --per_device_train_batch_size $BATCH_SIZE \
     --per_device_eval_batch_size 4 \
     --gradient_accumulation_steps 1 \
     --evaluation_strategy "no" \
