@@ -52,7 +52,7 @@ ACCELERATE_CPU_AFFINITY=1 torchrun --nproc_per_node="${GPU_PER_NODE_COUNT}" --nn
     --dataloader_num_workers 16 \
     --lazy_preprocess True \
     --report_to wandb \
-    --run_name $BASE_RUN_NAME \
+    --run_name ${BASE_RUN_NAME}_pretrain \
     --seed $SEED \
     --attn_implementation flash_attention_2
 

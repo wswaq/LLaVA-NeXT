@@ -31,7 +31,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True ACCELERATE_CPU_AFFINITY=1 torch
     --version ${PROMPT_VERSION} \
     --data_path=/blob/waq/playground/data/llava_1_6/llava_next_raw_format_processed.json \
     --image_folder /blob/waq/playground/data/llava_1_6/images \
-    --pretrain_mm_mlp_adapter=./checkpoints/$BASE_RUN_NAME/projectors/mm_projector.bin" \
+    --pretrain_mm_mlp_adapter="./checkpoints/$BASE_RUN_NAME/projectors/mm_projector.bin" \
     --mm_tunable_parts="mm_vision_tower,mm_mlp_adapter,mm_language_model" \
     --mm_vision_tower_lr=2e-6 \
     --vision_tower ${VISION_MODEL_VERSION} \
@@ -39,13 +39,12 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True ACCELERATE_CPU_AFFINITY=1 torch
     --mm_vision_select_layer -2 \
     --mm_use_im_start_end False \
     --mm_use_im_patch_token False \
-    --image_aspect_ratio anyres \
-    --image_grid_pinpoints "[(384, 768), (768, 384), (768, 768), (1152, 384), (384, 1152)]" \
-    --group_by_modality_length True \
     --image_aspect_ratio square \
+    --image_grid_pinpoints "[(336, 672), (672, 336), (672, 672), (1008, 336), (336, 1008)]" \
+    --group_by_modality_length True \
     --mm_patch_merge_type spatial_unpad \
     --bf16 True \
-    --run_name ./checkpoints/${BASE_RUN_NAME}/finetune \
+    --run_name ${BASE_RUN_NAME}_finetune \
     --output_dir "./checkpoints/${BASE_RUN_NAME}/finetune" \
     --num_train_epochs 1 \
     --per_device_train_batch_size $BATCH_SIZE \
