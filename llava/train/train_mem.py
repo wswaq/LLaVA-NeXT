@@ -10,7 +10,7 @@ def mannual_seed(seed=0):
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
     from transformers import set_seed
-    set_seed(seed, True)
+    set_seed(seed)
 import os
 if os.environ.get("SEED") is not None:
     mannual_seed(int(os.environ.get("SEED")))

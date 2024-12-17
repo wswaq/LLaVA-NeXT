@@ -69,6 +69,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True ACCELERATE_CPU_AFFINITY=1 torch
     --torch_compile True \
     --torch_compile_backend "inductor" \
     --dataloader_drop_last True \
+    --seed $SEED \
     --attn_implementation flash_attention_2
 
 # You can delete the sdpa attn_implementation if you want to use flash attn

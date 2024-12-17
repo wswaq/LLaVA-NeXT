@@ -53,6 +53,7 @@ ACCELERATE_CPU_AFFINITY=1 torchrun --nproc_per_node="${GPU_PER_NODE_COUNT}" --nn
     --lazy_preprocess True \
     --report_to wandb \
     --run_name $BASE_RUN_NAME \
+    --seed $SEED \
     --attn_implementation flash_attention_2
 
 # You can delete the sdpa attn_implementation if you want to use flash attn
