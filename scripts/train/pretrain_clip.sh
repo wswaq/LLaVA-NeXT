@@ -51,7 +51,7 @@ ACCELERATE_CPU_AFFINITY=1 torchrun --nproc_per_node="${GPU_PER_NODE_COUNT}" --nn
     --gradient_checkpointing True \
     --dataloader_num_workers 16 \
     --lazy_preprocess True \
-    --report_to none \
+    --report_to wandb \
     --run_name $BASE_RUN_NAME \
     --attn_implementation flash_attention_2
 

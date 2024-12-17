@@ -65,7 +65,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True ACCELERATE_CPU_AFFINITY=1 torch
     --gradient_checkpointing True \
     --dataloader_num_workers 16 \
     --lazy_preprocess True \
-    --report_to none \
+    --report_to wandb \
     --torch_compile True \
     --torch_compile_backend "inductor" \
     --dataloader_drop_last True \
