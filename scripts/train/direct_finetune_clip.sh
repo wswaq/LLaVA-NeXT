@@ -18,9 +18,9 @@ echo "BASE_RUN_NAME: ${BASE_RUN_NAME}"
 TOTAL_BATCH_SIZE=128
 #if node cnt is 1 set grad acc steps to 2
 if [ $NODE_COUNT -eq 1 ]; then
-    GRAD_ACC=2
+    GRAD_ACC=4
 else
-    GRAD_ACC=1
+    GRAD_ACC=2
 fi
 BATCH_SIZE=$((((($TOTAL_BATCH_SIZE / $NODE_COUNT)/ $GPU_PER_NODE_COUNT))/ $GRAD_ACC))
 
@@ -39,7 +39,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True ACCELERATE_CPU_AFFINITY=1 torch
     --mm_vision_select_layer -2 \
     --mm_use_im_start_end False \
     --mm_use_im_patch_token False \
-    --image_aspect_ratio square \
+    --image_aspect_ratio anyres \
     --image_grid_pinpoints "[(336, 672), (672, 336), (672, 672), (1008, 336), (336, 1008)]" \
     --group_by_modality_length True \
     --mm_patch_merge_type spatial_unpad \
