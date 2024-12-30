@@ -18,9 +18,9 @@ echo "BASE_RUN_NAME: ${BASE_RUN_NAME}"
 TOTAL_BATCH_SIZE=128
 #if node cnt is 1 set grad acc steps to 2
 if [ $NODE_COUNT -eq 1 ]; then
-    GRAD_ACC=4
-else
     GRAD_ACC=2
+else
+    GRAD_ACC=1
 fi
 BATCH_SIZE=$((((($TOTAL_BATCH_SIZE / $NODE_COUNT)/ $GPU_PER_NODE_COUNT))/ $GRAD_ACC))
 
