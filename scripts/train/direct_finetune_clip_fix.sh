@@ -29,7 +29,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True ACCELERATE_CPU_AFFINITY=1 torch
     --deepspeed scripts/zero3.json \
     --model_name_or_path ${LLM_VERSION} \
     --version ${PROMPT_VERSION} \
-    --data_path=/blob/waq/playground/data/data/llava_v1_5_mix665k.json \
+    --data_path=/blob/waq/playground/data/llava_v1_5_mix665k.json \
     --image_folder /blob/waq/playground/data/ \
     --pretrain_mm_mlp_adapter="./checkpoints/$BASE_RUN_NAME/projectors/mm_projector.bin" \
     --mm_tunable_parts="mm_mlp_adapter,mm_language_model" \
